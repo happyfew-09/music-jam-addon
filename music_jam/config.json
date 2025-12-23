@@ -1,0 +1,21 @@
+{
+  "name": "Music Jam",
+  "version": "1.0.0",
+  "slug": "music_jam",
+  "description": "Guest music queue for Music Assistant",
+  "startup": "application",
+  "boot": "auto",
+  "ingress": false,
+  "host_network": true,
+  "ports": {
+    "8090/tcp": 8090
+  },
+  "ports_description": {
+    "8090/tcp": "Music Jam web interface"
+  },
+  "arch": ["amd64", "armv7", "armhf", "aarch64"],
+  "options": {},
+  "schema": {},
+  "map": ["config:rw"],
+  "homeassistant_api": true
+}

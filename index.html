@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Music Jam</title>
+</head>
+<body>
+<h1>🎵 Music Jam</h1>
+
+<h2>Choose Speaker</h2>
+<select id="zone"></select>
+
+<h2>Search</h2>
+<input id="query" placeholder="Search song or artist">
+<button onclick="search()">Search</button>
+
+<ul id="results"></ul>
+
+<script>
+async function loadZones() {
+  const r = await fetch('/zones');
+  const zones = await r.json();
+  const select = document.getElementById('zone');
+  for (const id in zones) {
+    const opt = document.createElement('option');
+    opt.value = id;
+    opt.textContent = zones[id].name;
+    select.appendChild(opt);
+  }
+}
+
+async function search() {
+  const q = document.getElementById('query').value;
+  const r = await fetch('/search?q=' + encodeURIComponent(q));
+  const data = await r.json();
+
+  const ul = document.getElementById('results');
+  ul.innerHTML = '';
+
+  (data.tracks || []).slice(0, 10).forEach(track => {
+    const li = document.createElement('li');
+    li.textContent = `${track.name} – ${track.artists?.[0]?.name || ''}`;
+    li.onclick = () => add(track.uri);
+    ul.appendChild(li);
+  });
+}
+
+async function add(uri) {
+  const zone = document.getElementById('zone').value;
+  await fetch(`/zones/${zone}/queue`, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({track_uri: uri})
+  });
+  alert('Added to queue!');
+}
+
+loadZones();
+</script>
+</body>
+</html>
