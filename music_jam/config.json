@@ -8,7 +8,7 @@
   "ingress": false,
   "host_network": true,
   "ports": {
-    "8090/tcp": 8090
+    "1998/tcp": 1998
   },
   "ports_description": {
     "8090/tcp": "Music Jam web interface"
