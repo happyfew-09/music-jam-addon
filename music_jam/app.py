@@ -2,6 +2,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 import requests
+import traceback
 from config import MUSIC_ASSISTANT_BASE_URL, HA_TOKEN, ZONES
 
 app = FastAPI()
@@ -32,17 +33,34 @@ def get_zones():
     }
 
 
+# @app.get("/search")
+# def search(q: str):
+#     r = requests.get(
+#         f"{MUSIC_ASSISTANT_BASE_URL}/search",
+#         params={"q": q},
+#         headers=HEADERS,
+#         timeout=10,
+#     )
+#     if not r.ok:
+#         raise HTTPException(500, "Search failed")
+#     return r.json()
 @app.get("/search")
-def search(q: str):
-    r = requests.get(
-        f"{MUSIC_ASSISTANT_BASE_URL}/search",
-        params={"q": q},
-        headers=HEADERS,
-        timeout=10,
-    )
-    if not r.ok:
-        raise HTTPException(500, "Search failed")
-    return r.json()
+async def search(q: str):
+    try:
+        print(f"Search request received: {q}")
+
+        # ---- existing search logic below ----
+        # example:
+        # response = requests.get(...)
+        # data = response.json()
+        # return data
+
+    except Exception as e:
+        print("🔥 SEARCH ERROR 🔥")
+        print(traceback.format_exc())
+        return {
+            "error": str(e)
+        }
 
 
 @app.post("/zones/{zone_id}/queue")
