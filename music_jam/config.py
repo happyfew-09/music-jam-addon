@@ -3,7 +3,7 @@ MUSIC_ASSISTANT_BASE_URL = "http://music-assistant:9095"
 # If MA runs elsewhere, change this
 
 # Long-lived access token from Home Assistant
-HA_TOKEN = os.environ.get("SUPERVISOR_TOKEN")
+HA_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJiN2RiMGYwZTY2YTk0ODUxYjIxNjk3ZGE1MjEwOTEyOCIsImlhdCI6MTc2NjQ4NjE0OCwiZXhwIjoyMDgxODQ2MTQ4fQ.qgUvC5dttbmtnvqdgVcDmuDStKdHWv3hvivJokTqS0w"
 
 ZONES = {
     "living_room": {
