@@ -1,5 +1,5 @@
 import os
-MUSIC_ASSISTANT_BASE_URL = "http://100.85.150.69:9095"
+MUSIC_ASSISTANT_BASE_URL = "http://192.168.178.85:9095"
 # If MA runs elsewhere, change this
 
 # Long-lived access token from Home Assistant
