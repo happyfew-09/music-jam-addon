@@ -33,34 +33,31 @@ def get_zones():
     }
 
 
-# @app.get("/search")
-# def search(q: str):
-#     r = requests.get(
-#         f"{MUSIC_ASSISTANT_BASE_URL}/search",
-#         params={"q": q},
-#         headers=HEADERS,
-#         timeout=10,
-#     )
-#     if not r.ok:
-#         raise HTTPException(500, "Search failed")
-#     return r.json()
 @app.get("/search")
 async def search(q: str):
-    try:
-        print(f"Search request received: {q}")
+    print(f"Search request received: {q}")
 
-        # ---- existing search logic below ----
-        # example:
-        # response = requests.get(...)
-        # data = response.json()
-        # return data
+    r = requests.get(
+        f"{MUSIC_ASSISTANT_BASE_URL}/api/search",
+        params={"query": q, "limit": 10},
+        headers={
+            "Authorization": f"Bearer {HA_TOKEN}"
+        },
+        timeout=10
+    )
+    r.raise_for_status()
 
-    except Exception as e:
-        print("🔥 SEARCH ERROR 🔥")
-        print(traceback.format_exc())
-        return {
-            "error": str(e)
-        }
+    data = r.json()
+
+    tracks = []
+    for t in data.get("tracks", []):
+        tracks.append({
+            "name": t["name"],
+            "artist": t["artists"][0]["name"] if t.get("artists") else "Unknown",
+            "uri": t["uri"]
+        })
+
+    return {"tracks": tracks}
 
 
 @app.post("/zones/{zone_id}/queue")

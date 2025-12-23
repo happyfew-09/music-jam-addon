@@ -1,5 +1,5 @@
 import os
-MUSIC_ASSISTANT_BASE_URL = "http://supervisor/core/api/music_assistant"
+MUSIC_ASSISTANT_BASE_URL = "http://music-assistant:9095"
 # If MA runs elsewhere, change this
 
 # Long-lived access token from Home Assistant
