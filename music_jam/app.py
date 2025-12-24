@@ -1,10 +1,16 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
+from ha_ws import HAWebSocket
 import requests
 import traceback
+import os
 from config import MUSIC_ASSISTANT_BASE_URL, HA_TOKEN, ZONES
 
+HA_URL = os.environ["HA_URL"]
+HA_TOKEN = os.environ["HA_TOKEN"]
+
+ha = HAWebSocket(HA_URL, HA_TOKEN)
 app = FastAPI()
 
 if not HA_TOKEN:
@@ -34,25 +40,17 @@ def get_zones():
 
 
 @app.get("/search")
-def search(q: str):
+async def search(q: str):
     print(f"Search request received: {q}")
 
-    r = requests.post(
-        f"{MUSIC_ASSISTANT_BASE_URL}/api/media/search",
-        json={
-            "query": q,
-            "media_types": ["track"],
-            "limit": 10
-        },
-        headers={
-            "Authorization": f"Bearer {HA_TOKEN}",
-            "Content-Type": "application/json"
-        },
-        timeout=10,
+    result = await ha.call(
+        "music_assistant/search",
+        query=q,
+        limit=10,
+        media_types=["track"]
     )
 
-    r.raise_for_status()
-    return r.json()
+    return result
 
 
 

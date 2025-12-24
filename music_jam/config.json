@@ -18,4 +18,5 @@
   "schema": {},
   "map": ["config:rw"],
   "homeassistant_api": true
+  
 }
