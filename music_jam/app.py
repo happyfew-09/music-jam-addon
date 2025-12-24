@@ -38,13 +38,17 @@ async def search(q: str):
     print(f"Search request received: {q}")
 
     r = requests.get(
-        f"{MUSIC_ASSISTANT_BASE_URL}/api/search",
-        params={"query": q, "limit": 10},
-        headers={
-            "Authorization": f"Bearer {HA_TOKEN}"
-        },
-        timeout=10
-    )
+    f"{MUSIC_ASSISTANT_BASE_URL}/api/media/search",
+    params={
+        "query": q,
+        "media_types": "track",
+        "limit": 10
+    },
+    headers={
+        "Authorization": f"Bearer {HA_TOKEN}"
+    },
+    timeout=10,
+)
     r.raise_for_status()
 
     data = r.json()
