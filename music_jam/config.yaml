@@ -1,0 +1,28 @@
+name: Music Jam
+slug: music_jam
+description: Simple Music Assistant web controller
+version: "0.1.0"
+startup: services
+boot: auto
+host_network: false
+
+options:
+  ha_url: "http://homeassistant.local:8123"
+  ha_token: ""
+
+schema:
+  ha_url: str
+  ha_token: password
+
+environment:
+  HA_URL: "{{ options.ha_url }}"
+  HA_TOKEN: "{{ options.ha_token }}"
+
+ports:
+  1998/tcp: 1998
+
+webui: "http://[HOST]:[PORT:1998]"
+
+arch:
+  - amd64
+  - aarch64
