@@ -7,7 +7,7 @@ boot: auto
 host_network: false
 
 options:
-  ha_url: "http://homeassistant.local:8123"
+  ha_url: "https://happyfew09.duckdns.org:8123"
   ha_token: ""
 
 schema:
