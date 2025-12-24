@@ -38,7 +38,7 @@ def search(q: str):
     print(f"Search request received: {q}")
 
     r = requests.post(
-        f"{MUSIC_ASSISTANT_BASE_URL}/api/search",
+        f"{MUSIC_ASSISTANT_BASE_URL}/api/media/search",
         json={
             "query": q,
             "media_types": ["track"],
