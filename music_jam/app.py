@@ -34,34 +34,26 @@ def get_zones():
 
 
 @app.get("/search")
-async def search(q: str):
+def search(q: str):
     print(f"Search request received: {q}")
 
-    r = requests.get(
-    f"{MUSIC_ASSISTANT_BASE_URL}/api/media/search",
-    params={
-        "query": q,
-        "media_types": "track",
-        "limit": 10
-    },
-    headers={
-        "Authorization": f"Bearer {HA_TOKEN}"
-    },
-    timeout=10,
-)
+    r = requests.post(
+        f"{MUSIC_ASSISTANT_BASE_URL}/api/search",
+        json={
+            "query": q,
+            "media_types": ["track"],
+            "limit": 10
+        },
+        headers={
+            "Authorization": f"Bearer {HA_TOKEN}",
+            "Content-Type": "application/json"
+        },
+        timeout=10,
+    )
+
     r.raise_for_status()
+    return r.json()
 
-    data = r.json()
-
-    tracks = []
-    for t in data.get("tracks", []):
-        tracks.append({
-            "name": t["name"],
-            "artist": t["artists"][0]["name"] if t.get("artists") else "Unknown",
-            "uri": t["uri"]
-        })
-
-    return {"tracks": tracks}
 
 
 @app.post("/zones/{zone_id}/queue")
